@@ -1,158 +1,311 @@
+/*기본*/
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, sans-serif;
 }
 
+body {
+  background-color: #0f0f0f;
+  color: #f0f0f0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+/*스크롤바 숨김*/
 ::-webkit-scrollbar {
   display: none;
 }
-
+/*상단 고정 및 로고 포인트*/
 header {
-  border-bottom: 3px double gray;
-}
-
-ul {
-  list-style: none;
-  padding: 10px;
-}
-
-.menu {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.item {
-  width: 100px;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  img {
-    height: 60%;
-    object-fit: contain;
-  }
-
-  div {
-    text-align: center;
-    &:first-child {
-      font-weight: 600;
-    }
-    &:last-child {
-      font-weight: 200;
-      font-size: 0.9rem;
-    }
-  }
-}
-
-header {
+  background-color: #1a1a1a;
+  padding: 1.2rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #333;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #ff4d00;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+
+    &:hover {
+      color: #ff4d00;
+      border-color: #ff4d00;
+      background-color: rgba(255, 77, 0, 0.1);
+    }
+  }
 }
-a {
-  color: black;
-  text-decoration: none;
-  padding: 10px;
+/*메인 레이아웃*/
+main {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0;
+  padding: 3rem 5%;
+}
+/*카테고리*/
+section {
+  margin-bottom: 4rem;
+  width: 100%;
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #ff4d00;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #2a2a2a;
+      margin-left: 2rem;
+    }
+  }
+}
+/*메뉴*/
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 180px);
+  gap: 2.5rem;
+  justify-content: start;
 }
 
+.item {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-10px);
+    border-color: #ff4d00;
+    background-color: #222;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.15) rotate(3deg);
+  }
+
+  section {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    div:first-child {
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+    div:last-child {
+      color: #ff4d00;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+  }
+}
+
+/* 모달 */
 .modal-backdrop {
   position: fixed;
-  background-color: rgba(0,0,0,0.2);
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: none;
   display: grid;
   place-items: center;
+  z-index: 1000;
+  animation: modalFadeIn 0.3s ease;
 
   .modal {
-    width: min(80%, 400px);
-    height: 380px;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: white;
-      .modal-item {
-        display: flex;
-        align-items: center;
-        img {
-          height: 120px;
-          margin: 10px;
-        }
+    background-color: #1a1a1a;
+    width: 380px;
+    border-radius: 24px;
+    padding: 1.8rem 2rem;
+    border: 2px solid #ff4d00;
+    box-shadow: 0 0 50px rgba(255, 77, 0, 0.3), 0 30px 60px rgba(0, 0, 0, 0.8);
+
+    .modal-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 1.5rem;
+
+      img {
+        height: 140px;
+        margin-bottom: 1rem;
       }
-      .options {
-        display: flex;
-        gap: 15px;
-    
-        .option {
-          font-size: 1rem;
-          font-weight: 600;
-          margin-bottom: 10px;
-      
-          li {
-            font-weight: 300;
-            font-size: 0.8rem;
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.4rem;
+        color: #ff4d00;
+        font-weight: 900;
+      }
+      div {
+        color: #999;
+        font-size: 0.9rem;
+      }
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+
+      .option {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: #fff;
+        ul {
+          display: flex;
+          gap: 0.6rem;
+          margin-top: 0.6rem;
+        }
+        li {
+          background: #252525;
+          padding: 0.5rem 0.8rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          color: #aaa;
+          border: 1px solid #333;
+          transition: 0.2s;
+          &:hover {
+            border-color: #ff4d00;
+            color: #fff;
           }
         }
       }
-      .submit {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    }
 
-        input {
-          width: 50px;
-          margin: 10px;
-        }
-
-        button {
-          padding: 10px;
+    .submit {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.2rem;
+      border-top: 1px solid #333;
+      label {
+        font-weight: 800;
+        color: #888;
+        font-size: 0.9rem;
+      }
+      input {
+        background: #000;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 6px;
+        border-radius: 6px;
+        width: 60px;
+      }
+      button {
+        background-color: #ff4d00;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.8rem;
+        border-radius: 10px;
+        font-weight: 900;
+        font-size: 0.95rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        &:hover {
+          transform: scale(1.05);
+          background-color: #ff6a26;
+          box-shadow: 0 0 20px rgba(255, 77, 0, 0.4);
         }
       }
+    }
   }
 }
-
+/*장바구니*/
 .cart {
-  border: 1px solid gray;
-  border-radius: 10px;
-  padding: 10px;
-
-  .no-item {
-    padding: 20px;
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
   .cart-item {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 20px;
+    padding: 2rem;
     display: flex;
-    position: relative;
     align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid gray;
-    padding: 20px;
-    &:last-child {
-      border: none;
-    }
+    justify-content: space-between;
     .cart-item-info {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      img {
+        height: 80px;
+      }
       div {
-        font-size: 1.1rem;
-        font-weight: 600;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #fff;
       }
     }
     .cart-item-option {
-      margin-left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      color: #777;
+      font-size: 0.95rem;
     }
     .cart-item-delete {
-      position: absolute;
-      right: 10px;
-      top: 20px;
-      padding: 4px;
+      background: #2a2a2a;
+      color: #ff4d00;
+      border: 1px solid #333;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+      &:hover {
+        background: #ff4d00;
+        color: white;
+      }
     }
+  }
+}
+/*효과*/
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
